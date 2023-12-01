@@ -1,0 +1,11 @@
+body{
+    font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto;
+}
+
+ul.header {
+    list-style: none;
+}
+
+ul.header li{
+    display: inline-block;
+}
