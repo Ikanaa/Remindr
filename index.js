@@ -42,7 +42,10 @@ app.get('/', (req, res) => {
 
 app.get('/new', (req, res) => {
      res.render('new_remind', {
-
+	groups: [
+	  {name: "groupe A"},
+	  {name: "groupe B"}
+	]
      });
 });
 
