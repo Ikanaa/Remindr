@@ -1,0 +1,19 @@
+<form action="/new" method="post">
+  <div>
+    <label for="title">Titre du rappel : </label>
+    <input type="text" name="title" required />
+  </div>
+  <div>
+    <input type="text" name="body" placeholder="Corp du rappel" required />
+  </div>
+  <div>
+    <input type="date" name="expiration" required>
+  </div>
+  <div>
+    <label for="color">Couleur du rappel : </label>
+    <input type="color" name="color" required>
+  </div>
+  <div class="submit">
+    <input type="submit" value="Create !" />
+  </div>
+</form>
