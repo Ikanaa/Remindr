@@ -1,0 +1,19 @@
+
+
+{{#each reminders}}
+    <div style="margin: 0.5%; width: 30%; background-color: rgba({{color}}, 0.6); display: inline-block;">
+        <h2 style="margin-left: 2%">{{title}}</h2>
+        <p style="margin: 3% 2%">
+            {{body}}
+        </p>
+
+
+        <p style="display:inline-block; margin: 2%; margin-bottom: 1%; margin-top: 5%;">{{creation}}</p> 
+        <p style="float: right; display:inline-block; margin: 2%; margin-bottom: 1%; margin-top: 5%;">{{expiration}}</p>
+        <p style="display:block; margin: 2%; margin-bottom: 3%; margin-top: 0;">{{days}} jours restant</p>
+
+
+        <h3 style="display:inline-block; padding-left: 3%;">{{author}}</h3>
+        <h3 style="display:inline-block; float:right; padding-right: 3%">{{groupe}}</h3>
+    </div>
+{{/each}}
