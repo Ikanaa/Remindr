@@ -1,35 +1,50 @@
-// prisma/schema.prisma
+// schema.prisma
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/client"
+  output   = "./generated/client"
 }
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
+  url      = "mysql://user:password@localhost:3306/remindr_database"
 }
 
-model User {
+model Utilisateur{
   id       Int      @id @default(autoincrement())
-  username String   @unique
   password String
-  groups   Group[]
+  username String   @unique
+  email    String   @unique
+  Owned Groupe[]
+  UserXGroup UserXGroup[]
 }
 
-model Group {
-  id      Int      @id @default(autoincrement())
-  name    String
-  users   User[]
-  reminders Reminder[]
+model Groupe {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  ownerid Int
+  Utilisateur Utilisateur @relation(fields: [ownerid], references: [id])
+  UserXGroup UserXGroup[]
+  Reminder Reminder[]
+
+}
+
+model UserXGroup{
+  id       Int       @id @default(autoincrement())
+  userid Int
+  groupid Int
+  Utilisateur Utilisateur @relation(fields: [userid], references: [id])
+  Groupe Groupe @relation(fields: [groupid], references: [id])
 }
 
 model Reminder {
   id          Int      @id @default(autoincrement())
-  name        String
-  description String?
-  dueDate     DateTime
+  title        String
+  body String?
+  creation DateTime
+  expiration     DateTime
   color       String
-  groupId     Int
-  group       Group    @relation(fields: [groupId], references: [id])
+  author     String
+  groupeid     Int
+  Groupe Groupe @relation(fields: [groupeid], references: [id])
 }
