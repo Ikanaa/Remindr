@@ -1,0 +1,29 @@
+<form action="/new" method="post">
+  <div>
+    <label for="title">Titre du rappel : </label>
+    <input type="text" name="title" required />
+  </div>
+  <div>
+    <input type="text" name="body" placeholder="Corp du rappel" required />
+  </div>
+  <div>
+    <label for="date">Date d'échéance du rappel : </label>
+    <input type="date" name="expiration" required>
+  </div>
+  <div>
+    <label for="color">Couleur du rappel : </label>
+    <input type="color" name="color" required>
+  </div>
+  <div>
+    <label for="group">Groupe pour le rappel : </label>
+    <select name="group">
+      <option value="self">--Please choose an option--</option>
+      {{#each groups}}
+        <option value="{{name}}">{{name}}</option>
+      {{/each}}
+    </select>
+  </div>
+  <div class="submit">
+    <input type="submit" value="Create !" />
+  </div>
+</form>
