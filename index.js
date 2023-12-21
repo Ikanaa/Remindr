@@ -11,7 +11,7 @@ const port = 3010;
 
 //app.set('trust proxy', 1) // trust first proxy ||  Used with secure : true
 app.use(session({
-  secret: 'Ikana Tonic',
+  secret: 'Ikana & Tonic',
   resave: false,
   saveUninitialized: true,
   cookie: { 
@@ -172,6 +172,9 @@ app.post('/register', (req, res) => {
 });
 
 
+
+
+// Ce serait mieux de faire un routeur "Group" et de mettre toutes les actions des groupes dedant
 app.get("/groups", (req,res) => {
     
     if (!req.session.id_user)
@@ -184,6 +187,8 @@ app.get("/groups", (req,res) => {
         groups : [
             {
                 group_name : "Yes Groupe",
+                isowner : true,
+                groupeid : 5,
                 members : [
                     {
                         member_name : "Kackie"
@@ -195,10 +200,46 @@ app.get("/groups", (req,res) => {
                         member_name : "Steph"
                     }
                 ]
-            }
+            },
+            {
+                group_name : "No Groupe",
+                members : [
+                    {
+                        member_name : "Jack"
+                    },
+                    {
+                        member_name : "Steph"
+                    }
+                ]
+            },
         ]
     });
 });
+
+
+app.get("/edit_group", (req, res) => {
+    if (!req.session.id_user)
+    {
+        res.redirect('/');
+        return;
+    }
+
+    console.log(groupeid);
+
+    //group info
+    res.render("edit_groups", {
+
+    })
+});
+
+app.post("/new_group", (req, res) => {
+    
+    console.log(req.body);
+    
+
+});
+
+
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
