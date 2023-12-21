@@ -92,3 +92,78 @@ async function getGroupsForUser(userId) {
   const userGroups = user.UserXGroup.map((userXGroup) => userXGroup.Groupe);
   return userGroups;
 }
+
+// Delete remmindr by ID
+
+async function deleteRemmindr(reminderId) {
+  const deletedReminder = await prisma.Reminder.delete({
+    where: { id: reminderId },
+  });
+}
+
+// Delete group by ID
+// je pars du principe que cette fonction ne peut etre appeller que par l'owner
+async function deleteGroup(groupId){
+        // Supprime tous les rappels liés au groupe
+        await prisma.Reminder.deleteMany({
+          where: {
+            groupeid: groupId,
+          },
+        });
+
+      // Supprime tous les liens (UserXGroup) avec d'autres utilisateurs
+      await prisma.UserXGroup.deleteMany({
+        where: {
+          groupid: groupId,
+        },
+      });
+
+      // supprime le groupe lui-même
+      const deletedGroup = await prisma.Groupe.delete({
+        where: { id: groupId },
+      });        
+}
+
+
+async function deleteUserById(userId) {
+  
+    // Récupérer tous les groupes dont l'utilisateur est propriétaire
+    const userOwnedGroups = await prisma.Groupe.findMany({
+      where: { ownerid: userId },
+      include: {
+        UserXGroup: true,
+      },
+    });
+
+    // Supprimer tous les rappels liés aux groupes dont l'utilisateur est propriétaire
+    for (const userOwnedGroup of userOwnedGroups) {
+      await prisma.Reminder.deleteMany({
+        where: {
+          groupeid: userOwnedGroup.id,
+        },
+      });
+    }
+
+    // Supprimer tous les liens (UserXGroup) de l'utilisateur
+    await prisma.UserXGroup.deleteMany({
+      where: {
+        userid: userId,
+      },
+    });
+
+    // Supprimer tous les groupes dont l'utilisateur est propriétaire
+    await prisma.Groupe.deleteMany({
+      where: {
+        ownerid: userId,
+      },
+    });
+
+    // Enfin, supprimer l'utilisateur lui-même
+    const deletedUser = await prisma.Utilisateur.delete({
+      where: { id: userId },
+    });
+
+    console.log('User and associated elements deleted:', deletedUser);
+
+}
+
